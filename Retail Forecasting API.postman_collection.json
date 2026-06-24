@@ -1,0 +1,243 @@
+{
+  "info": {
+    "_postman_id": "9fdb9159-b028-4b1b-9c4f-d0eb1d44b3a8",
+    "name": "Retail Forecasting API",
+    "description": "Postman collection for the FastAPI retail forecasting backend.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    }
+  ],
+  "item": [
+    {
+      "name": "Root",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            ""
+          ]
+        },
+        "description": "Basic API info and endpoint list."
+      },
+      "response": []
+    },
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "health"
+          ]
+        },
+        "description": "Check model readiness, history readiness, and artifact loading status."
+      },
+      "response": []
+    },
+    {
+      "name": "Model Info",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/model-info",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "model-info"
+          ]
+        },
+        "description": "View model metadata and evaluation metrics."
+      },
+      "response": []
+    },
+    {
+      "name": "History",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/history?store_id=1&category=Groceries&days=30&before_date=2025-12-31",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "history"
+          ],
+          "query": [
+            {
+              "key": "store_id",
+              "value": "1",
+              "description": "Required. Store ID."
+            },
+            {
+              "key": "category",
+              "value": "Groceries",
+              "description": "Required. Must match a dataset category."
+            },
+            {
+              "key": "days",
+              "value": "30",
+              "description": "Optional. Number of latest records to return."
+            },
+            {
+              "key": "before_date",
+              "value": "2025-12-31",
+              "description": "Optional. Only return records before this date."
+            }
+          ]
+        },
+        "description": "Fetch aggregated history for a store/category pair."
+      },
+      "response": []
+    },
+    {
+      "name": "Predict Revenue",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"date\": \"2026-04-10\",\n  \"store_id\": 1,\n  \"category\": \"Groceries\",\n  \"unit_price\": 100.0,\n  \"units_sold\": 50,\n  \"discount_applied\": 10,\n  \"holiday_flag\": 0\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/predict",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "predict"
+          ]
+        },
+        "description": "Predict revenue for one date/store/category combination."
+      },
+      "response": []
+    },
+    {
+      "name": "Forecast",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/forecast?days=7&from_date=2026-04-10&store_id=1&category=Groceries&unit_price=100&units_sold=50&discount_applied=10&holiday_flag=0",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "forecast"
+          ],
+          "query": [
+            {
+              "key": "days",
+              "value": "7"
+            },
+            {
+              "key": "from_date",
+              "value": "2026-04-10"
+            },
+            {
+              "key": "store_id",
+              "value": "1"
+            },
+            {
+              "key": "category",
+              "value": "Groceries"
+            },
+            {
+              "key": "unit_price",
+              "value": "100"
+            },
+            {
+              "key": "units_sold",
+              "value": "50"
+            },
+            {
+              "key": "discount_applied",
+              "value": "10"
+            },
+            {
+              "key": "holiday_flag",
+              "value": "0"
+            }
+          ]
+        },
+        "description": "Generate a recursive multi-day revenue forecast."
+      },
+      "response": []
+    },
+    {
+      "name": "Category Comparison",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"date\": \"2026-04-10\",\n  \"store_id\": 1,\n  \"unit_price\": 100.0,\n  \"units_sold\": 50,\n  \"discount_applied\": 10,\n  \"holiday_flag\": 0\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/category-comparison",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "category-comparison"
+          ]
+        },
+        "description": "Compare predicted revenue across all available categories for a store."
+      },
+      "response": []
+    },
+    {
+      "name": "Discount Optimizer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"date\": \"2026-04-10\",\n  \"store_id\": 1,\n  \"category\": \"Groceries\",\n  \"unit_price\": 100.0,\n  \"units_sold\": 50,\n  \"holiday_flag\": 0\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/discount-optimizer",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "discount-optimizer"
+          ]
+        },
+        "description": "Test fixed discount values [0, 5, 10, 15, 20] and return the best predicted revenue."
+      },
+      "response": []
+    }
+  ]
+}
